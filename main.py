@@ -54,8 +54,8 @@ def modify_nfo_for_ranking(dest_dir, rank_index, total_items):
                         criticrating_elem = ET.SubElement(root_elem, 'criticrating')
                     criticrating_elem.text = str(int(score * 10))
 
-                    # 2. 设置强制排序标题：例如 1_原标题
-                    sort_prefix = f"{(rank_index + 1)}_"
+                    # 2. 设置强制排序标题：例如 001_原标题
+                    sort_prefix = f"{(rank_index + 1):03d}_"
                     title_elem = root_elem.find('title')
                     orig_title = title_elem.text if title_elem is not None and title_elem.text else file.replace('.nfo', '')
                     
@@ -147,7 +147,7 @@ def main():
                         dir_name = os.path.basename(src_dir)
                         
                         # 在目标文件夹名前加上前缀，确保在文件管理器中物理排序
-                        rank_prefix = f"{(rank_index + 1)}_"
+                        rank_prefix = f"{(rank_index + 1):03d}_"
                         dest_dir = os.path.join(target_dir, f"{rank_prefix}{dir_name}")
 
                         try:
