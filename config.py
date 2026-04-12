@@ -53,6 +53,6 @@ COPY_TARGET_DIR = os.getenv("COPY_TARGET_DIR", "/root")
 # 可以在此处配置映射，格式为：{"容器内路径前缀": "宿主机路径前缀"}
 # 例如：{"/media": "/home/user/media"}
 PATH_MAPPING = {
-    # "/media": "/mnt/data/media"
+    "/strm": "/root/strm"
 }
 
