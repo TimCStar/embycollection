@@ -32,7 +32,10 @@ COLLECTION_MAPPING = {
     "javdb-1-monthly": "JavDB-无码-月榜",
     "javdb-3-daily": "JavDB-FC2-日榜",
     "javdb-3-weekly": "JavDB-FC2-周榜",
-    "javdb-3-monthly": "JavDB-FC2-月榜"
+    "javdb-3-monthly": "JavDB-FC2-月榜",
+    "library-vl_bestrated": "JAVLibrary-高分榜",
+    "library-vl_mostwanted": "JAVLibrary-最想要",
+    "library-star_mostfav": "JAVLibrary-热门演员"
 }
 
 # 限制保存的榜单大小（例如只取前 100）
