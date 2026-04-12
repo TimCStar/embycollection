@@ -5,7 +5,7 @@ import shutil
 from scraper import fetch_rankings
 from matcher import match_items
 from emby_client import EmbyClient
-from config import COLLECTION_MAPPING, MAX_RANK_SIZE, ENABLE_FOLDER_COPY, COPY_TARGET_DIR
+from config import COLLECTION_MAPPING, MAX_RANK_SIZE, ENABLE_FOLDER_COPY, COPY_TARGET_DIR, PATH_MAPPING
 
 # 配置日志记录，输出到控制台及文件
 logging.basicConfig(
@@ -79,6 +79,13 @@ def main():
                 copied_count = 0
                 for item_id in matched_ids:
                     src_file_path = emby_movie_map.get(str(item_id))
+                    
+                    if src_file_path:
+                        for docker_path, host_path in PATH_MAPPING.items():
+                            if src_file_path.startswith(docker_path):
+                                src_file_path = src_file_path.replace(docker_path, host_path, 1)
+                                break
+                                
                     if src_file_path and os.path.exists(src_file_path):
                         # 获取影片所处的上一级文件夹路径
                         src_dir = os.path.dirname(src_file_path)
