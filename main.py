@@ -148,6 +148,7 @@ def main():
                         
                         # 在目标文件夹名前加上前缀，确保在文件管理器中物理排序
                         rank_prefix = f"{(rank_index + 1)}_"
+                        dest_dir = os.path.join(target_dir, f"{rank_prefix}{dir_name}")
 
                         try:
                             # 复制整座影片文件夹（含 strm, nfo, jpg 等）        
@@ -156,6 +157,9 @@ def main():
                             # 为新拷贝修改 nfo 数据用于重新打分（修改独立副本）
                             modify_nfo_for_ranking(dest_dir, rank_index, total_matched)
                             
+                            copied_count += 1
+                        except Exception as e:
+                            logging.error(f"复制物理文件夹 '{dir_name}' 失败: {e}")
                 
                 logging.info(f"成功将 {copied_count} 部影片所在文件夹复制到 {target_dir}")
         else:
