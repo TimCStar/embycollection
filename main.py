@@ -165,6 +165,12 @@ def main():
         else:
             logging.warning(f"合集 {target_col_name} 没有任何匹配项，跳过创建。")
 
+    # 步骤 6: 同步完成后刷新媒体库，避免 Emby 继续展示已删除文件
+    try:
+        emby.refresh_libraries(LIBRARY_IDS)
+    except Exception as e:
+        logging.error(f"提交媒体库刷新任务失败: {e}")
+
     logging.info("=== 榜单同步任务执行完毕 ===")
 
 if __name__ == "__main__":

@@ -142,3 +142,39 @@ class EmbyClient:
             logging.info(f"首次创建合集并分配内容: {name}")
             self.create_collection(name, item_ids)
 
+    def refresh_library(self, library_id):
+        """刷新指定媒体库，触发 Emby 重新扫描文件变更。"""
+        url = f"{self.base_url}/Items/{library_id}/Refresh"
+        params = {
+            "Recursive": "true",
+            "MetadataRefreshMode": "Default",
+            "ImageRefreshMode": "Default",
+            "ReplaceAllMetadata": "false",
+            "ReplaceAllImages": "false"
+        }
+        response = requests.post(url, headers=self.headers, params=params)
+        response.raise_for_status()
+
+    def refresh_libraries(self, library_ids=""):
+        """
+        刷新媒体库。
+        - 传入库 ID 列表（逗号分隔）时，逐个刷新对应媒体库；
+        - 未传入时，触发 Emby 全库刷新。
+        """
+        ids = [item.strip() for item in str(library_ids).split(",") if item.strip()]
+
+        if ids:
+            logging.info(f"开始刷新 {len(ids)} 个媒体库...")
+            for lib_id in ids:
+                try:
+                    self.refresh_library(lib_id)
+                    logging.info(f"已提交媒体库刷新任务: {lib_id}")
+                except Exception as e:
+                    logging.error(f"刷新媒体库 {lib_id} 失败: {e}")
+        else:
+            logging.info("未配置库 ID，提交全库刷新任务...")
+            url = f"{self.base_url}/Library/Refresh"
+            response = requests.post(url, headers=self.headers)
+            response.raise_for_status()
+            logging.info("已提交全库刷新任务。")
+
